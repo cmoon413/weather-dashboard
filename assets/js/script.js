@@ -11,6 +11,7 @@ $("#search").on("click", function(event) {
     event.preventDefault()
     cities.unshift($('#cityInput').val().trim())
     $('#cityInput').val('')
+    renderCities()
     createCurrentURL(cities[0])
     getCurrent()
     createForecastURL(cities[0])
@@ -66,4 +67,13 @@ function getForecast() {
             weatherForecast.push({ date: response.list[i].dt, humidity: response.list[i].main.humidity, temp: response.list[i].main.temp })
         }
     })
+}
+//render creates cities list from searches
+function renderCities() {
+    $("#cities").empty();
+    for (var i = 0; i < cities.length; i++) {
+        var city = $('<li>').addClass('collection-item').attr('data-city', cities[i]).text(cities[i])
+        var a = $("<button>");
+        $("#cities").append(city)
+    }
 }
