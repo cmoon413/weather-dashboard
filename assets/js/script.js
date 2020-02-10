@@ -9,7 +9,8 @@ $("#search").on("click", function(event) {
     event.preventDefault()
     cities.push($('#cityInput').val().trim())
     $('#cityInput').val('')
-    currentWeatherURL(cities[0])
+    createCurrentURL(cities[0])
+    getCurrent()
 })
 
 
@@ -17,6 +18,25 @@ $("#search").on("click", function(event) {
 
 
 //creates a url for the current weather
-function currentWeatherURL(city) {
+function createCurrentURL(city) {
     currentURL = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&units=imperial&appid=" + APIKey
+}
+
+
+//ajax call to retrieve current weather
+function getCurrent() {
+    $.ajax({
+        url: currentURL,
+        method: "GET"
+    }).then(function(response) {
+
+
+        console.log(response)
+        $('.card-title').text(cities[0])
+        $('#temp').text('Temperature: ' + response.main.temp)
+        $('#humidity').text('Humidity: ' + response.main.humidity)
+        $('#wind').text('Wind: ' + response.wind.speed)
+
+
+    })
 }
