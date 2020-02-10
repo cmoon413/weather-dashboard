@@ -63,7 +63,7 @@ function getForecast() {
         console.log(date)
         for (let i = 7; i < 40; i += 8) {
             console.log(moment.unix(response.list[i].dt).format("MM/DD/YYYY"))
-            weatherForecast.push({ date: response.list[i].dt, temp: response.list[i].main.temp, weather: response.list[i].weather[0].description })
+            weatherForecast.push({ date: response.list[i].dt, humidity: response.list[i].main.humidity, temp: response.list[i].main.temp })
         }
     })
 }
