@@ -53,18 +53,23 @@ function getCurrent() {
 }
 
 
-//get forecast api info
+//get forecast api info and display to elements
 function getForecast() {
-    queryURL = 'https://api.openweathermap.org/data/2.5/forecast?q=davis,ca,us&units=imperial&appid=cbe32bb3b579dad365829cdc5ba21e51'
     $.ajax({
-        url: queryURL,
+        url: forecastURL,
         method: "GET"
     }).then(function(response) {
-        var date = new Date(response.list[0].dt * 1000)
-        console.log(date)
+        var count = 0
+        var forecast = document.querySelectorAll('.weather-forecast')
+        console.log(response)
         for (let i = 7; i < 40; i += 8) {
-            console.log(moment.unix(response.list[i].dt).format("MM/DD/YYYY"))
-            weatherForecast.push({ date: response.list[i].dt, humidity: response.list[i].main.humidity, temp: response.list[i].main.temp })
+            console.log(response.list[i].weather[0].icon)
+
+            forecast[count].previousElementSibling.innerHTML = moment.unix(response.list[i].dt).format("MM/DD/YYYY")
+            forecast[count].children[0].src = 'http://openweathermap.org/img/wn/' + response.list[i].weather[0].icon + '.png'
+            forecast[count].children[1].innerHTML = 'Temp: ' + response.list[i].main.temp
+            forecast[count].children[2].innerHTML = 'Humidity: ' + response.list[i].main.humidity
+            count++
         }
     })
 }
